@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pedido Irrecusável</title>
+    <link rel="stylesheet" href="./css/sim.css" />
+    <script>
+        function mostrarCaixaTexto() {
+            var outros = document.getElementById("outros");
+            var caixaTexto = document.getElementById("caixaTexto");
+            if (outros.checked) {
+                caixaTexto.style.display = "block";
+            } else {
+                caixaTexto.style.display = "none";
+            }
+        }
+
+        function enviarParaWhatsApp(event) {
+            event.preventDefault(); // Evita o envio padrão do formulário
+
+            // Obtém os valores do formulário
+            var local = document.querySelector('input[name="local"]:checked') ? document.querySelector('input[name="local"]:checked').value : '';
+            var descricaoOutros = document.getElementById('descricaoOutros').value;
+            var dia = document.getElementById('dia').value;
+            var hora = document.getElementById('hora').value;
+            var transporte = document.querySelector('input[name="transporte"]:checked') ? document.querySelector('input[name="transporte"]:checked').value : '';
+
+            // Monta a mensagem
+            var mensagem = `Local: ${local}\n`;
+            if (local === "outros") {
+                mensagem += `Descrição de outros: ${descricaoOutros}\n`;
+            }
+            mensagem += `Dia: ${dia}\nHora: ${hora}\nTransporte: ${transporte}`;
+
+            // Substitua pelo número 13997083915 no formato internacional, sem sinais de "+" ou espaços
+            var telefone = "5513997083915"; // Seu número
+
+            // Gera o link para WhatsApp
+            var url = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
+
+            // Redireciona para o WhatsApp
+            window.open(url, '_blank');
+        }
+    </script>
+  </head>
+  <body>
+    <div class="caixa">
+      <h2>Formulário de Encontro</h2>
+      <form>
+        <label for="local">Local:</label><br />
+        <input
+          type="radio"
+          id="praia"
+          name="local"
+          value="praia"
+          onclick="mostrarCaixaTexto()"
+          required
+        />
+        <label for="praia">Praia</label><br />
+
+        <input
+          type="radio"
+          id="cinema"
+          name="local"
+          value="cinema"
+          onclick="mostrarCaixaTexto()"
+          required
+        />
+        <label for="cinema">Cinema</label><br />
+
+        <input
+          type="radio"
+          id="barzinho"
+          name="local"
+          value="barzinho"
+          onclick="mostrarCaixaTexto()"
+          required
+        />
+        <label for="barzinho">Barzinho</label><br />
+
+        <input
+          type="radio"
+          id="restaurante"
+          name="local"
+          value="restaurante"
+          onclick="mostrarCaixaTexto()"
+          required
+        />
+        <label for="restaurante">Restaurante</label><br />
+
+        <input
+          type="radio"
+          id="outros"
+          name="local"
+          value="outros"
+          onclick="mostrarCaixaTexto()"
+          required
+        />
+        <label for="outros">Outros</label><br /><br />
+
+        <div id="caixaTexto" style="display: none">
+          <label for="descricaoOutros">Descreva:</label><br />
+          <input
+            type="text"
+            id="descricaoOutros"
+            name="descricaoOutros"
+            placeholder="Onde?"
+          />
+        </div>
+        <br />
+
+        <label for="dia">Dia:</label><br />
+        <select id="dia" name="dia" required>
+          <option value="" selected disabled>Selecione o dia</option>
+          <option value="sexta">Sexta</option>
+          <option value="sabado">Sábado</option>
+          <option value="domingo">Domingo</option></select
+        ><br /><br />
+
+        <label for="hora">Horário: ( entre 19h e 21h):</label><br />
+        <input
+          type="time"
+          id="hora"
+          name="hora"
+          min="19:00"
+          max="21:00"
+          required
+        /><br /><br />
+
+        <label for="transporte">Quer que eu te busque?</label><br />
+        <input type="radio" id="sim" name="transporte" value="sim" required />
+        <label for="sim">Sim</label><br />
+        <input type="radio" id="nao" name="transporte" value="nao" required />
+        <label for="nao">Não, a gente se encontra no local</label><br /><br />
+
+        <input type="submit" value="Enviar" />
+      </form>
+    </div>
+  </body>
+</html>
